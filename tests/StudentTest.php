@@ -6,6 +6,8 @@
     */
 
     require_once "src/Student.php";
+    require_once "src/Course.php";
+
 
     $server = 'mysql:host=localhost:8889;dbname=university_test';
     $username = 'root';
@@ -18,6 +20,7 @@
         protected function tearDown()
         {
             Student::deleteAll();
+            Course::deleteAll();
         }
 
 
@@ -159,22 +162,62 @@
             $this->assertEquals("Mitchell", $test_student->getName());
         }
 
-        // function testDelete()
-        // {
-        //     $name = "Boblob";
-        //     $date = "24/7";
-        //     $test_student = new Student($name, $date);
-        //     $test_student->save();
-        //
-        //     $course = "anatomy";
-        //     $test_course = new Course($course);
-        //     $test_course->save();
-        //
-        //     $test_course->addStudent($test_course);
-        //     $test_course->delete();
-        //
-        //     $this->assertEquals([], $test_course->getStudents());
-        //
-        // }
+        function testDelete()
+        {
+            $name = "Boblob";
+            $date = "24/7";
+            $test_student = new Student($name, $date);
+            $test_student->save();
+
+            $course_name = "anatomy";
+            $number = "101";
+            $test_course = new Course($course_name, $number);
+            $test_course->save();
+
+            $test_course->addStudent($test_course);
+            $test_course->delete();
+
+            $this->assertEquals([], $test_course->getStudents());
+
+        }
+
+        function testAddCourse()
+        {
+            $name = "Boblob";
+            $date = "24/7";
+            $test_student = new Student($name, $date);
+            $test_student->save();
+
+            $course_name = "anatomy";
+            $number = "888";
+            $test_course = new Course($course_name, $number);
+            $test_course->save();
+
+            $test_student->addCourse($test_course);
+
+            $this->assertEquals($test_student->getCourses(), [$test_course]);
+        }
+
+        function testGetCourses()
+        {
+            $name = "Boblob";
+            $date = "24/7";
+            $test_student = new Student($name, $date);
+            $test_student->save();
+
+            $course_name = "Chemistry";
+            $course_name_2 = "Lib Studies";
+            $number = "2444";
+            $number_2 = "343453";
+            $test_course = new Course($course_name, $number);
+            $test_course->save();
+            $test_course_2 = new Course($course_name_2, $number_2);
+            $test_course_2->save();
+
+            $test_student->addCourse($test_course);
+            $test_student->addCourse($test_course_2);
+
+            $this->assertEquals($test_student->getCourses(), [$test_course, $test_course_2]);
+        }
     }
 ?>

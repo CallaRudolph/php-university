@@ -101,18 +101,42 @@ class Student
         }
     }
 
-    // function delete()
-    //    {
-    //        $executed = $GLOBALS['DB']->exec("DELETE FROM students WHERE id = {$this->getId()};");
-    //        if (!$executed) {
-    //            return false;
-    //        }
-    //        $GLOBALS['DB']->exec("DELETE FROM courses_students WHERE course_id = {$this->getId()};");
-    //        if (!$executed) {
-    //            return false;
-    //        } else {
-    //            return true;
-    //        }
-    //    }
+    function delete()
+    {
+        $executed = $GLOBALS['DB']->exec("DELETE FROM students WHERE id = {$this->getId()};");
+        if (!$executed) {
+            return false;
+        }
+        $GLOBALS['DB']->exec("DELETE FROM courses_students WHERE course_id = {$this->getId()};");
+        if (!$executed) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function addCourse($course)
+    {
+        $executed = $GLOBALS['DB']->exec("INSERT INTO courses_students (course_id, student_id) VALUES ({$course->getId()}, {$this->getId()});");
+        if ($executed) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function getCourses()
+    {
+        $returned_courses = $GLOBALS['DB']->query("SELECT courses.* FROM students JOIN courses_students ON (courses_students.student_id = students.id) JOIN courses ON (courses.id = courses_students.course_id) WHERE students.id = {$this->getId()};");
+        $courses = array();
+        foreach($returned_courses as $course) {
+            $course_name = $course['course_name'];
+            $number = $course['number'];
+            $id = $course['id'];
+            $new_course = new Course($course_name, $number, $id);
+            array_push($courses, $new_course);
+        }
+        return $courses;
+    }
 }
 ?>

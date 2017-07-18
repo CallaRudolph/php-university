@@ -6,6 +6,8 @@
     */
 
     require_once "src/Course.php";
+    require_once "src/Student.php";
+
 
     $server = 'mysql:host=localhost:8889;dbname=university_test';
     $username = 'root';
@@ -18,6 +20,7 @@
         protected function tearDown()
         {
             Course::deleteAll();
+            Student::deleteAll();
         }
 
 
@@ -158,5 +161,80 @@
 
             $this->assertEquals("Skydiving", $test_course->getCourseName());
         }
+
+        function testUpdateNumber()
+        {
+            $course_name = "Gym";
+            $number = "101";
+            $test_course = new Course($course_name, $number);
+            $test_course->save();
+
+            $new_course_number = "202";
+
+            $test_course->updateNumber($new_course_number);
+
+            $this->assertEquals("202", $test_course->getNumber());
+        }
+
+        function testDelete()
+        {
+            $name = "Boblob";
+            $date = "24/7";
+            $test_student = new Student($name, $date);
+            $test_student->save();
+
+            $course_name = "anatomy";
+            $number = "888";
+            $test_course = new Course($course_name, $number);
+            $test_course->save();
+
+            $test_course->addStudent($test_student);
+            $test_course->delete();
+
+            $this->assertEquals([], $test_student->getCourses());
+
+        }
+
+        function testAddStudent()
+        {
+            $name = "Boblob";
+            $date = "24/7";
+            $test_student = new Student($name, $date);
+            $test_student->save();
+
+            $course_name = "anatomy";
+            $number = "888";
+            $test_course = new Course($course_name, $number);
+            $test_course->save();
+
+            $test_course->addStudent($test_student);
+
+            $this->assertEquals($test_course->getStudents(), [$test_student]);
+        }
+
+        function testGetStudents()
+        {
+            $name = "Boblob";
+            $date = "24/7";
+            $test_student = new Student($name, $date);
+            $test_student->save();
+
+            $name2 = "Lora";
+            $date2 = "Christmas";
+            $test_student2 = new Student($name2, $date2);
+            $test_student2->save();
+
+            $course_name = "anatomy";
+            $number = "888";
+            $test_course = new Course($course_name, $number);
+            $test_course->save();
+
+            $test_course->addStudent($test_student);
+            $test_course->addStudent($test_student2);
+
+            $this->assertEquals($test_course->getStudents(), [$test_student, $test_student2]);
+        }
+
     }
+
 ?>
