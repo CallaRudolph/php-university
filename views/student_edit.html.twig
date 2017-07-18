@@ -5,7 +5,7 @@
   <body>
     <h1>Update {{ student.getName }}</h1>
 
-    <form action="/students/{{ student.getId }}" method="post">
+    <form action="/student/{{ student.getId }}" method="post">
       <input name="_method" type="hidden" value="patch">
 
       <label for="name">Rename your student:</label>
@@ -13,7 +13,7 @@
 
       <button type="submit">Update</button>
     </form>
-    <form action="/students/{{ student.getId }}" method="post">
+    <form action="/student/{{ student.getId }}" method="post">
       <input name="_method" type="hidden" value="delete">
 
       <button type="submit">Delete this student</button>
