@@ -12,10 +12,6 @@ class Student
         $this->id = $id;
     }
 
-    // function getId()
-    // {
-    //     // return $this->id;
-    // }
 
     function getName()
     {
@@ -52,5 +48,30 @@ class Student
             return false;
         }
     }
+
+    static function getAll()
+    {
+        $returned_students = $GLOBALS['DB']->query("SELECT * FROM students;");
+        $students = array();
+        foreach($returned_students as $student) {
+            $name = $student['name'];
+            $date = $student['date'];
+            $id = $student['id'];
+            $new_student = new Student($name, $date, $id);
+            array_push($students, $new_student);
+        }
+        return $students;
+    }
+
+    static function deleteAll()
+    {
+        $executed = $GLOBALS['DB']->exec("DELETE FROM students;");
+        if ($executed) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
 ?>

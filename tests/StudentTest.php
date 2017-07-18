@@ -15,6 +15,11 @@
 
     class TaskTest extends PHPUnit_Framework_TestCase
     {
+        protected function tearDown()
+        {
+            Student::deleteAll();
+        }
+
 
         function testGetName()
         {
@@ -90,5 +95,41 @@
 
             $this->assertTrue($executed, "Student not successfully saved to database");
         }
+
+        function testGetAll()
+        {
+            $name = "Boblob";
+            $name_2 = "Lobobo";
+            $date = "24/7";
+            $date_2 = "Never";
+            $test_student = new Student($name, $date);
+            $test_student->save();
+            $test_student_2 = new Student($name_2, $date_2);
+            $test_student_2->save();
+
+            $result = Student::getAll();
+
+            $this->assertEquals([$test_student, $test_student_2], $result);
+        }
+
+        function testDeleteAll()
+        {
+            $name = "Boblob";
+            $name_2 = "Lobobo";
+            $date = "24/7";
+            $date_2 = "Never";
+            $test_student = new Student($name, $date);
+            $test_student->save();
+            $test_student_2 = new Student($name_2, $date_2);
+            $test_student_2->save();
+
+            Student::deleteAll();
+
+            $result = Student::getAll();
+            $this->assertEquals([], $result);
+
+        }
+
+
     }
 ?>
