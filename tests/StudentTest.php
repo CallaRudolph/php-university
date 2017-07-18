@@ -13,7 +13,7 @@
     $DB = new PDO($server, $username, $password);
 
 
-    class TaskTest extends PHPUnit_Framework_TestCase
+    class StudentTest extends PHPUnit_Framework_TestCase
     {
         protected function tearDown()
         {
@@ -127,9 +127,54 @@
 
             $result = Student::getAll();
             $this->assertEquals([], $result);
-
         }
 
+        function testFind()
+        {
+            $name = "Boblob";
+            $name_2 = "Lobobo";
+            $date = "24/7";
+            $date_2 = "Never";
+            $test_student = new Student($name, $date);
+            $test_student->save();
+            $test_student_2 = new Student($name_2, $date_2);
+            $test_student_2->save();
 
+            $result = Student::find($test_student->getId());
+
+            $this->assertEquals($test_student, $result);
+        }
+
+        function testUpdate()
+        {
+            $name = "Lolli";
+            $date = "3434";
+            $test_student = new Student($name, $date);
+            $test_student->save();
+
+            $new_name = "Mitchell";
+
+            $test_student->update($new_name);
+
+            $this->assertEquals("Mitchell", $test_student->getName());
+        }
+
+        // function testDelete()
+        // {
+        //     $name = "Boblob";
+        //     $date = "24/7";
+        //     $test_student = new Student($name, $date);
+        //     $test_student->save();
+        //
+        //     $course = "anatomy";
+        //     $test_course = new Course($course);
+        //     $test_course->save();
+        //
+        //     $test_course->addStudent($test_course);
+        //     $test_course->delete();
+        //
+        //     $this->assertEquals([], $test_course->getStudents());
+        //
+        // }
     }
 ?>
