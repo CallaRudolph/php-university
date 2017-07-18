@@ -11,7 +11,7 @@
             <p>Students enrolled at Pot Rud Uni</p>
             <ul>
                 {% for student in students %}
-                    <li> {{ student.getName }}, enrolled: {{ student.getDate }} </li>
+                    <li> <a href="/students/{{ student.getId }}"> {{ student.getName }}, enrolled: {{ student.getDate }}</a> </li>
                 {% endfor %}
             </ul>
         {% else %}

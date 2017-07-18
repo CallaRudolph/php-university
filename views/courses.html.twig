@@ -11,7 +11,7 @@
             <p>Courses available at Pot Rud Uni:</p>
             <ul>
                 {% for course in courses %}
-                    <li> {{ course.getCourseName }}, {{ course.getNumber }} </li>
+                    <li> <a href="/courses/{{ course.getId }}"> {{ course.getCourseName }}, {{ course.getNumber }} </a></li>
                 {% endfor %}
             </ul>
         {% else %}
