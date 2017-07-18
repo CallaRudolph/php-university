@@ -49,6 +49,20 @@ class Student
         }
     }
 
+    function orderAsc()
+    {
+        $returned_students = $GLOBALS['DB']->query("SELECT * FROM students ORDER BY name ASC;");
+        $students = array();
+        foreach($returned_students as $student) {
+            $name = $student['name'];
+            $date = $student['date'];
+            $id = $student['id'];
+            $new_student = new Student($name, $date, $id);
+            array_push($students, $new_student);
+        }
+        return $students;
+    }
+
     static function getAll()
     {
         $returned_students = $GLOBALS['DB']->query("SELECT * FROM students;");

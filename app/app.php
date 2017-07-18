@@ -32,7 +32,7 @@
         $date = $_POST['date'];
         $student = new Student($name, $date);
         $student->save();
-        return $app['twig']->render('students.html.twig', array('students' => Student::getAll()));
+        return $app['twig']->render('students.html.twig', array('students' =>         $student->orderAsc()));
     });
 
     $app->post("/delete_students", function() use ($app) {
