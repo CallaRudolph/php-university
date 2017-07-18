@@ -100,7 +100,9 @@
 
     $app->patch("/course/{id}", function($id) use ($app) {
         $course_name = $_POST['course_name'];
+        $number = $_POST['number'];
         $course = Course::find($id);
+        $course->updateNumber($number);
         $course->update($course_name);
         return $app['twig']->render('course.html.twig', array('course' => $course, 'students' => $course->getStudents(), 'all_students' => Student::getAll()));
     });
@@ -112,19 +114,11 @@
         return $app['twig']->render('course.html.twig', array('course' => $course, 'courses' => Course::getAll(), 'students' => $course->getStudents(), 'all_students' => Student::getAll()));
     });
 
-
-    // $app->get("/student/{id}/edit", function($id) use ($app) {
-    //     $student = Student::find($id);
-    //     return $app['twig']->render('student_edit.html.twig', array('student' => $student));
-    // });
-    //
-
-    // $app->delete("/student/{id}", function($id) use ($app) {
-    //     $student = Student::find($id);
-    //     $student->delete();
-    //     return $app['twig']->render('index.html.twig', array('students' => Student::getAll()));
-    // });
-
+    $app->delete("/course/{id}", function($id) use ($app) {
+        $course = Course::find($id);
+        $course->delete();
+        return $app['twig']->render('index.html.twig', array('courses' => Course::getAll()));
+    });
 
     return $app;
 ?>
