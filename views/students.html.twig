@@ -1,0 +1,35 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>Pot Rud Uni</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Here is your list of students</h1>
+
+        {% if students is not empty %}
+            <p>Students enrolled at Pot Rud Uni</p>
+            <ul>
+                {% for student in students %}
+                    <li> {{ student.getName }}, enrolled: {{ student.getDate }} </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>There are no courses!</p>
+        {% endif %}
+        <br>
+        <h4>Add a new student:</h4>
+        <form action='/students' method="post">
+            <label for='name'>Student Name:</label>
+            <input type="text" name='name' id='name'>
+            <label for='date'>Date of enrollment:</label>
+            <input type="text" name='date' id='date'>
+            <button type="submit" class="btn btn-success">Add them!</button>
+        </form>
+
+        <h3><a href="/">Home</a></h3>
+
+    </div>
+
+</body>
+</html>
