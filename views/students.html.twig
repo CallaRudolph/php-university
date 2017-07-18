@@ -15,7 +15,7 @@
                 {% endfor %}
             </ul>
         {% else %}
-            <p>There are no courses!</p>
+            <p>There are no students!</p>
         {% endif %}
         <br>
         <h4>Add a new student:</h4>
@@ -25,6 +25,10 @@
             <label for='date'>Date of enrollment:</label>
             <input type="text" name='date' id='date'>
             <button type="submit" class="btn btn-success">Add them!</button>
+        </form>
+
+        <form action="/delete_students" method="post">
+            <button type="submit" class="btn btn-danger">Banish them!</button>
         </form>
 
         <h3><a href="/">Home</a></h3>

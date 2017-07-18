@@ -32,10 +32,14 @@
         return $app['twig']->render('students.html.twig', array('students' => Student::getAll()));
     });
 
+    $app->post("/delete_students", function() use ($app) {
+        Student::deleteAll();
+        return $app['twig']->render('index.html.twig');
+    });
+
     $app->get("/courses", function() use ($app) {
         return $app['twig']->render('courses.html.twig', array('courses' => Course::getAll()));
     });
-
 
     $app->post("/courses", function() use ($app) {
         $course_name = $_POST['course_name'];
@@ -45,5 +49,10 @@
         return $app['twig']->render('courses.html.twig', array('courses' => Course::getAll()));
     });
 
+    $app->post("/delete_courses", function() use ($app) {
+        Course::deleteAll();
+        return $app['twig']->render('index.html.twig');
+    });
+    
     return $app;
 ?>
