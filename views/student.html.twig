@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <title>Pot Rud Uni</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1>{{ student.getName }}</h1>
+
+            {% if courses is not empty %}
+                <p>Here are the courses that {{ student.getName }} signed up for:</p>
+                <ul>
+                    {% for course in courses %}
+                        <li>{{ course.getCourseName }}</li>
+                        <ul>
+                            <li>Course #: {{ course.getNumber }}</li>
+                        </ul>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <h4>Add a course for {{ student.getName }}:</h4>
+
+            <form action='/add_courses' method='post'>
+                <input id="student_id" name="student_id" type="hidden" value="{{ student.getId }}">
+                <label for='course_id'>Select a course</label>
+                <select id='course_id' name='course_id' type='text'>
+                    {% for course in all_courses %}
+                        <option value="{{ course.getId }}"> {{ course.getCourseName }} </option>
+                    {% endfor %}
+                </select>
+
+                <button type='submit'>Add course</button>
+            </form>
+
+            <p><a href="/students/{{ student.getId }}/edit">Edit {{ student.getName }}</a></p>
+
+            <p><a href='/'>Home</a></p>
+        </div>
+    </body>
+</html>

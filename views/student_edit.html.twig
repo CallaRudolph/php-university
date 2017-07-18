@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <title>Edit Student</title>
+  </head>
+  <body>
+    <h1>Update {{ student.getName }}</h1>
+
+    <form action="/students/{{ student.getId }}" method="post">
+      <input name="_method" type="hidden" value="patch">
+
+      <label for="name">Rename your student:</label>
+      <input id="name" name="name" type="text">
+
+      <button type="submit">Update</button>
+    </form>
+    <form action="/students/{{ student.getId }}" method="post">
+      <input name="_method" type="hidden" value="delete">
+
+      <button type="submit">Delete this student</button>
+    </form>
+  </body>
+</html>

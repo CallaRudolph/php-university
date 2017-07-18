@@ -16,6 +16,9 @@
         'twig.path' => __DIR__.'/../views'
     ));
 
+    use Symfony\Component\HttpFoundation\Request;
+    Request::enableHttpMethodParameterOverride();
+
     $app->get("/", function() use ($app) {
         return $app['twig']->render('index.html.twig', array('students' => Student::getAll(), 'courses' => Course::getAll()));
     });
@@ -56,9 +59,33 @@
 
     $app->get("/students/{id}", function($id) use ($app) {
         $student = Student::find($id);
-        return $app['twig']->render('student.html.twig', array('student' => $student, 'courses' => getCourses(), ))
+        return $app['twig']->render('student.html.twig', array('student' => $student, 'courses' => $student->getCourses(), 'all_courses' => Course::getAll()));
+    });
 
-    })
+    $app->get("/students/{id}/edit", function($id) use ($app) {
+        $student = Student::find($id);
+        return $app['twig']->render('student_edit.html.twig', array('student' => $student));
+    });
+
+    $app->patch("/students/{id}", function($id) use ($app) {
+        $name = $_POST['name'];
+        $student = Student::find($id);
+        $student->update($name);
+        return $app['twig']->render('student.html.twig', array('student' => $student, 'courses' => $student->getCourses(), 'all_courses' => Course::getAll()));
+    });
+
+    $app->post("/add_courses", function() use ($app) {
+        $student = Student::find($_POST['student_id']);
+        $course = Course::find($_POST['course_id']);
+        $student->addCourse($course);
+        return $app['twig']->render('student.html.twig', array('student' => $student, 'students' => Student::getAll(), 'courses' => $student->getCourses(), 'all_courses' => Course::getAll()));
+    });
+
+    $app->delete("/students/{id}", function($id) use ($app) {
+        $student = Student::find($id);
+        $student->delete();
+        return $app['twig']->render('index.html.twig', array('students' => Student::getAll()));
+    });
 
     return $app;
 ?>
